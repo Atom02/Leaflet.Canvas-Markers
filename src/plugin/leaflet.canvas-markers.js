@@ -255,16 +255,29 @@ function layerFactory(L) {
         },
 
         _drawImage: function (marker, pointPos) {
-
-            var options = marker.options.icon.options;
-
-            this._context.drawImage(
-                marker.canvas_img,
-                pointPos.x - options.iconAnchor[0],
-                pointPos.y - options.iconAnchor[1],
-                options.iconSize[0],
-                options.iconSize[1]
-            );
+                var options = marker.options.icon.options;
+                let rotate = options.rotate || 0
+                if (rotate != 0) {
+                    this._context.save();
+                    this._context.translate(pointPos.x - options.iconAnchor[0], pointPos.y - options.iconAnchor[1]);
+                    this._context.rotate(rotate * Math.PI / 180);
+                    this._context.drawImage(
+                        marker.canvas_img,
+                        pointPos.x + options.iconAnchor[0],
+                        pointPos.y + options.iconAnchor[1],
+                        options.iconSize[0],
+                        options.iconSize[1]
+                    );
+                    this._context.restore();
+                } else {
+                    this._context.drawImage(
+                        marker.canvas_img,
+                        pointPos.x - options.iconAnchor[0],
+                        pointPos.y - options.iconAnchor[1],
+                        options.iconSize[0],
+                        options.iconSize[1]
+                    );
+               }
         },
 
         _reset: function () {
