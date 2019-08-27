@@ -430,4 +430,8 @@ function layerFactory(L) {
     };
 };
 
-module.exports = layerFactory;
+//module.exports = layerFactory;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+    module.exports = layerFactory;
+  else
+    window.layerFactory = layerFactory;
